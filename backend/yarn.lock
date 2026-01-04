@@ -2284,7 +2284,7 @@
   resolved "https://registry.npmjs.org/@medusajs/order/-/order-2.12.3.tgz"
   integrity sha512-rqmF/Hc4RGzv0Ijh4Zc9Cq3XEQiRDtwPF4153ByS/9fpWHjfSYBWXQT7uuhBEZj3iCqHbZBOXsA8p2l/JgeLGA==
 
-"@medusajs/payment-stripe@2.12.3":
+"@medusajs/payment-stripe@^2.12.3", "@medusajs/payment-stripe@2.12.3":
   version "2.12.3"
   resolved "https://registry.npmjs.org/@medusajs/payment-stripe/-/payment-stripe-2.12.3.tgz"
   integrity sha512-OQXpxRiNEFjsmKydKcYg9NL+DddMS+NXtREkxQCw0inzXzZmduWL7saT19berGccwy0xPWpQJAeDft1WSt27QQ==
@@ -9614,11 +9614,6 @@ picomatch@^2.3.1:
   version "4.0.3"
   resolved "https://registry.npmjs.org/picomatch/-/picomatch-4.0.3.tgz"
   integrity sha512-5gTmgEY/sqK6gFXLIsQNH19lWb4ebPDLA4SdLP7dsWkIXHWlG66oPuVvXSGFPppYZz8ZDZq0dYYrbHfBCVUb1Q==
-
-picomatch@3.x:
-  version "3.0.1"
-  resolved "https://registry.npmjs.org/picomatch/-/picomatch-3.0.1.tgz"
-  integrity sha512-I3EurrIQMlRc9IaAZnqRR044Phh2DXY+55o7uJ0V+hYZAcQYSuFWsc9q5PvyDHUSCe1Qxn/iBz+78s86zWnGag==
 
 pify@^2.3.0:
   version "2.3.0"
