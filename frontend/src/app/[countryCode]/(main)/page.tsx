@@ -46,9 +46,9 @@ export default async function Home(props: {
         </div>
       </div>
 
-      <div className="py-24 px-4 max-w-[1440px] mx-auto">
+      <div className="py-12 px-4 max-w-[1440px] mx-auto">
         <div className="flex flex-col gap-y-10">
-          <div className="flex justify-between items-end border-b border-gray-200 pb-4 mb-4">
+          <div className="flex justify-between items-end border-b border-gray-200">
             <h2 className="text-3xl font-bold text-foreground tracking-tight">
               Curated Collections
             </h2>
