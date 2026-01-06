@@ -1,0 +1,57 @@
+services:
+  # Database
+  postgres:
+    image: postgres:18.1
+    container_name: medusa-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: medusa-db
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    restart: always
+
+  # Cache
+  redis:
+    image: redis:alpine
+    container_name: medusa-redis
+    restart: always
+
+  # Backend
+  backend:
+    build: ./backend
+    container_name: medusa-backend
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      - DATABASE_URL=postgres://postgres:password@postgres:5432/medusa-db
+      - REDIS_URL=redis://redis:6379
+      - NODE_ENV=production
+      - JWT_SECRET=something_super_secret_change_me
+      - COOKIE_SECRET=something_super_secret_change_me
+      - STRIPE_API_KEY=${STRIPE_API_KEY}
+      - STRIPE_WEBHOOK_SECRET=${STRIPE_WEBHOOK_SECRET}
+      - ADMIN_CORS=http://YOUR_IP_VPS:7000,http://localhost:7000,http://YOUR_IP_VPS:8000
+      - STORE_CORS=http://YOUR_IP_VPS:8000,http://localhost:8000
+    ports:
+      - "9000:9000"
+    command: sh -c "npx medusa db:migrate && npx medusa start"
+    restart: always
+
+  # Frontend
+  frontend:
+    build: ./frontend
+    container_name: medusa-storefront
+    depends_on:
+      - backend
+    environment:
+      - MEDUSA_BACKEND_URL=http://backend:9000
+      - NEXT_PUBLIC_MEDUSA_BACKEND_URL=http://YOUR_IP_VPS:9000
+      - NEXT_PUBLIC_STRIPE_KEY=${NEXT_PUBLIC_STRIPE_KEY}
+    ports:
+      - "8000:8000"
+    restart: always
+
+volumes:
+  postgres_data:
