@@ -1,19 +1,25 @@
-FROM node:20-alpine
+FROM node:20-alpine AS builder
 
-WORKDIR /app/frontend
-
-COPY package*.json ./
-
-RUN npm install
-
+WORKDIR /app
+COPY package.json yarn.lock* package-lock.json* ./
+RUN npm ci
 COPY . .
 
 ARG NEXT_PUBLIC_MEDUSA_BACKEND_URL
-ENV NEXT_PUBLIC_MEDUSA_BACKEND_URL=http://backend:9000
-ARG NEXT_PUBLIC_STRIPE_KEY
-ENV NEXT_PUBLIC_STRIPE_KEY=pk_test_... 
+ENV NEXT_PUBLIC_MEDUSA_BACKEND_URL=$NEXT_PUBLIC_MEDUSA_BACKEND_URL
+
+ARG NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY
+ENV NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY=$NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY
 
 RUN npm run build
 
+FROM node:20-alpine AS runner
+WORKDIR /app
+ENV NODE_ENV=production
+
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
+
 EXPOSE 8000
-CMD ["npm", "run", "start"]
+CMD ["node", "server.js"]
